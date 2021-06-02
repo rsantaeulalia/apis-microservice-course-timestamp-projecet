@@ -33,7 +33,7 @@ var listener = app.listen(process.env.PORT, function () {
 
 app.get("/api/:date?", function returnFile(req, res) {
   if(req.params.date){
-    const date = new Date(req.params.date);
+    const date = Date.parse(req.params.date);
     if (isValidDate(date)) {
         res.json({ "unix": date.getMilliseconds(), "utc": date.getUTCDate() });
     } else {

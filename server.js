@@ -33,17 +33,18 @@ var listener = app.listen(process.env.PORT, function () {
 
 app.get("/api/:date?", function returnFile(req, res) {
   if(req.params.date){
-    const date = Date.parse(req.params.date);
+    console.log(req.params.date);
+    const date = new Date(isNaN(req.params.date) ? req.params.date : NumberLong(req.params.date));
     if (isValidDate(date)) {
-        res.json({ "unix": date.getMilliseconds(), "utc": date.getUTCDate() });
+        res.json({ "unix": date.toString(), "utc": date.toGMTString() });
     } else {
         res.json({ "error": "Invalid Date" })
     }
   } else {
-    res.json({ "unix": new Date().getMilliseconds(), "utc": new Date().getUTCDate() })
+    res.json({ "unix": new Date(), "utc": new Date().toGMTString() })
   }
 });
 
 function isValidDate(d) {
-  return d instanceof Date && !isNaN(d);
+  return true;
 }

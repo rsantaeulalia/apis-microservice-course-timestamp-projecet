@@ -35,12 +35,12 @@ app.get("/api/:date?", function returnFile(req, res) {
   if(req.params.date){
     const date = createDate(req.params.date)
     if (date) {
-        res.json({ "unix": date.toString(), "utc": date.toGMTString() });
+        res.json({ "unix": date.getTime(), "utc": date.toGMTString() });
     } else {
         res.json({ "error": "Invalid Date" })
     }
   } else {
-    res.json({ "unix": new Date(), "utc": new Date().toGMTString() })
+    res.json({ "unix": new Date().getTime(), "utc": new Date().toGMTString() })
   }
 });
 

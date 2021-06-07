@@ -51,7 +51,7 @@ function createDate(date_string) {
   switch (typeof date_string) {
     case "string":
       if (regexp2.test(date_string)) {
-        date = new Date(Number(date_string * 1e3)); 
+        date = new Date(Number(date_string)); 
         break; 
       }
       if (regexp.test(date_string)) {

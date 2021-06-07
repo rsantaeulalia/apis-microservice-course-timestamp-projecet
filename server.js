@@ -57,8 +57,6 @@ function createDate(date_string) {
       }
       if (regexp.test(date_string)) {
         date = new Date(date_string);
-      } else {
-        return console.log("Invalid Date String");
       }
       break;
     case "undefined":

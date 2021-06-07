@@ -8,7 +8,7 @@ var app = express();
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
-app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
+app.use(cors({ optionsSuccessStatus: 200 }));  // some legacy browsers choke on 204
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -21,7 +21,7 @@ app.get("/", function (req, res) {
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+  res.json({ greeting: 'hello API' });
 });
 
 
@@ -32,13 +32,13 @@ var listener = app.listen(process.env.PORT, function () {
 });
 
 app.get("/api/:date?", function returnFile(req, res) {
-  if(req.params.date){
+  if (req.params.date) {
     console.log(req.params.date);
     const date = createDate(req.params.date);
     if (date) {
-        res.json({ "unix": date.getTime(), "utc": date.toGMTString() });
+      res.json({ "unix": date.getTime(), "utc": date.toGMTString() });
     } else {
-        res.json({ "error": "Invalid Date" })
+      res.json({ "error": "Invalid Date" })
     }
   } else {
     res.json({ "unix": new Date().getTime(), "utc": new Date().toGMTString() })
@@ -52,11 +52,13 @@ function createDate(date_string) {
   switch (typeof date_string) {
     case "string":
       if (regexp2.test(date_string)) {
-        date = new Date(Number(date_string)); 
-        break; 
+        date = new Date(Number(date_string));
+        break;
       }
       if (regexp.test(date_string)) {
         date = new Date(date_string);
+      } else {
+        return convertFromStringToDate(date_string);
       }
       break;
     case "undefined":
@@ -64,4 +66,15 @@ function createDate(date_string) {
       return undefined;
   }
   return date;
+}
+
+function convertFromStringToDate(dateString) {
+  let dateComponents = dateString.split(' ');
+  if (dateComponents) {
+    let day = dateComponents[0];
+    let month = dateComponents[1];
+    let year = dateComponents[2];
+
+    return new Date(day, month, year);
+  }
 }

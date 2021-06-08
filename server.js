@@ -48,6 +48,7 @@ app.get("/api/:date?", function returnFile(req, res) {
 function createDate(date_string) {
   const regexp = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
   const regexp2 = /^(\d{0,13})?$/;
+  const regexp3 = /^(?:19[7-9]\d|2\d{1}) (?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:c)?|Apr(?:il)?|May?|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?:19[7-9]\d|2\d{3})(?=\D|$)$/;
   let date;
   switch (typeof date_string) {
     case "string":
@@ -57,9 +58,13 @@ function createDate(date_string) {
       }
       if (regexp.test(date_string)) {
         date = new Date(date_string);
-      } else {
-        return convertFromStringToDate(date_string);
-      }
+        break;
+      } 
+      if (regexp3.test(date_string)) {
+        date = convertFromStringToDate(date_string);
+        break;
+      } 
+      date = new Date();  
       break;
     case "undefined":
     default:

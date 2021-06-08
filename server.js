@@ -64,7 +64,7 @@ function createDate(date_string) {
         date = convertFromStringToDate(date_string);
         break;
       } 
-      date = new Date();  
+      date = undefined;
       break;
     case "undefined":
     default:
